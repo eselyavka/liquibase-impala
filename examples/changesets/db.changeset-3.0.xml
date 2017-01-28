@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="eselyavka" id="changeset-3.0" dbms="Impala">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="test_bigint_columns"/></not>
+        </preConditions>
+
+        <createTable tableName="test_bigint_columns" remarks="test_bigint_columns table">
+            <column name="ID" type="INT"/>
+            <column name="DATA" type="TEXT"/>
+            <column name="ID_BIGINT" type="BIGINT(20)"/>
+        </createTable>
+
+        <addColumn  tableName="test_bigint_columns">
+            <column name="ANOTHER_ID" type="bigint(20)" remarks="Another BIGINT column"/>
+        </addColumn>
+
+        <rollback>
+            <dropColumn tableName="test_bigint_columns" columnName="ANOTHER_ID"/>
+            <dropTable tableName="test_bigint_columns"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

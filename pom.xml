@@ -4,7 +4,7 @@
     <groupId>org.liquibase.ext.impala</groupId>
     <artifactId>liquibase-imapala</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <build>
         <plugins>
             <plugin>
