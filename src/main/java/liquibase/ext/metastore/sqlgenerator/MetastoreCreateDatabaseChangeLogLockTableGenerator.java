@@ -1,4 +1,4 @@
-package liquibase.ext.metastore.impala.sqlgenerator;
+package liquibase.ext.metastore.sqlgenerator;
 
 import liquibase.database.Database;
 import liquibase.datatype.DataTypeFactory;
@@ -11,7 +11,7 @@ import liquibase.sqlgenerator.core.CreateDatabaseChangeLogLockTableGenerator;
 import liquibase.statement.core.CreateDatabaseChangeLogLockTableStatement;
 import liquibase.statement.core.CreateTableStatement;
 
-public class ImpalaCreateDatabaseChangeLogLockTableGenerator extends CreateDatabaseChangeLogLockTableGenerator {
+public class MetastoreCreateDatabaseChangeLogLockTableGenerator extends CreateDatabaseChangeLogLockTableGenerator {
 
     @Override
     public boolean supports(CreateDatabaseChangeLogLockTableStatement statement, Database database) {

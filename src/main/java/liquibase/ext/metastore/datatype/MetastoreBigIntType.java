@@ -1,4 +1,4 @@
-package liquibase.ext.metastore.impala.datatype;
+package liquibase.ext.metastore.datatype;
 
 import liquibase.database.Database;
 import liquibase.datatype.DataTypeInfo;
@@ -14,7 +14,7 @@ import liquibase.ext.metastore.database.HiveMetastoreDatabase;
         "bigserial",
         "serial8",
         "int8"}, minParameters = 0, maxParameters = 1, priority = LiquibaseDataType.PRIORITY_DATABASE)
-public class ImpalaBigIntType extends BigIntType {
+public class MetastoreBigIntType extends BigIntType {
 
     @Override
     public DatabaseDataType toDatabaseDataType(Database database) {

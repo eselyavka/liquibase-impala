@@ -1,11 +1,10 @@
-package liquibase.ext.metastore.impala.sqlgenerator;
+package liquibase.ext.metastore.hive.sqlgenerator;
 
 import liquibase.changelog.ChangeSet;
 import liquibase.database.Database;
-import liquibase.ext.metastore.impala.database.ImpalaDatabase;
+import liquibase.ext.metastore.hive.database.HiveDatabase;
 import liquibase.ext.metastore.statement.CreateTableAsSelectStatement;
 import liquibase.ext.metastore.utils.CustomSqlGenerator;
-import liquibase.ext.metastore.utils.UserSessionSettings;
 import liquibase.sql.Sql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.RemoveChangeSetRanStatusGenerator;
@@ -16,7 +15,7 @@ import liquibase.structure.core.Column;
 
 import java.util.UUID;
 
-public class ImpalaRemoveChangeSetRanStatusGenerator extends RemoveChangeSetRanStatusGenerator {
+public class HiveRemoveChangeSetRanStatusGenerator extends RemoveChangeSetRanStatusGenerator {
 
     @Override
     public int getPriority() {
@@ -25,7 +24,7 @@ public class ImpalaRemoveChangeSetRanStatusGenerator extends RemoveChangeSetRanS
 
     @Override
     public boolean supports(RemoveChangeSetRanStatusStatement statement, Database database) {
-        return database instanceof ImpalaDatabase && super.supports(statement, database);
+        return database instanceof HiveDatabase && super.supports(statement, database);
     }
 
     @Override
@@ -37,16 +36,13 @@ public class ImpalaRemoveChangeSetRanStatusGenerator extends RemoveChangeSetRanS
         String tableName = database.getDatabaseChangeLogTableName();
         CreateTableAsSelectStatement createTableAsSelectStatement = new CreateTableAsSelectStatement(catalogName, schemaName, tableName, tmpTable)
                 .addColumnNames("ID", "AUTHOR", "FILENAME", "DATEEXECUTED", "ORDEREXECUTED", "EXECTYPE", "MD5SUM", "DESCRIPTION", "COMMENTS", "TAG", "LIQUIBASE", "CONTEXTS", "LABELS", "DEPLOYMENT_ID")
-                .setWhereCondition(" NOT (" + database.escapeObjectName("ID", Column.class) + " = ? " +
-                        "AND " + database.escapeObjectName("FILENAME", Column.class) + " = ?)")
+                .setWhereCondition(database.escapeObjectName("ID", Column.class) + " != ? " +
+                        "AND " + database.escapeObjectName("FILENAME", Column.class) + " != ?")
                 .addWhereParameters(changeSet.getId(), changeSet.getFilePath());
 
         return CustomSqlGenerator.generateSql(database,
-                UserSessionSettings.syncDdlStart(),
                 createTableAsSelectStatement,
                 new DropTableStatement(catalogName, schemaName, tableName, false),
-                new RenameTableStatement(catalogName, schemaName, tmpTable, tableName),
-                UserSessionSettings.syncDdlStop());
+                new RenameTableStatement(catalogName, schemaName, tmpTable, tableName));
     }
-
 }

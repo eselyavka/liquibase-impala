@@ -1,19 +1,19 @@
-package liquibase.ext.metastore.impala.sqlgenerator;
+package liquibase.ext.metastore.sqlgenerator;
 
 import liquibase.database.Database;
 import liquibase.exception.ValidationErrors;
 import liquibase.ext.metastore.database.HiveMetastoreDatabase;
-import liquibase.ext.metastore.impala.statement.SessionSetStatement;
+import liquibase.ext.metastore.statement.SetStatement;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.AbstractSqlGenerator;
 import liquibase.structure.core.Schema;
 
-public class ImpalaSetGenerator extends AbstractSqlGenerator<SessionSetStatement> {
+public class SetGenerator extends AbstractSqlGenerator<SetStatement> {
 
     @Override
-    public boolean supports(SessionSetStatement statement, Database database) {
+    public boolean supports(SetStatement statement, Database database) {
         return database instanceof HiveMetastoreDatabase && super.supports(statement, database);
     }
 
@@ -23,7 +23,7 @@ public class ImpalaSetGenerator extends AbstractSqlGenerator<SessionSetStatement
     }
 
     @Override
-    public ValidationErrors validate(SessionSetStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
+    public ValidationErrors validate(SetStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
         ValidationErrors errors = new ValidationErrors();
         errors.checkRequiredField("queryOption", statement.getQueryOption());
         errors.checkRequiredField("optionValue", statement.getOptionValue());
@@ -31,7 +31,7 @@ public class ImpalaSetGenerator extends AbstractSqlGenerator<SessionSetStatement
     }
 
     @Override
-    public Sql[] generateSql(SessionSetStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
+    public Sql[] generateSql(SetStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
         String sql = "SET " + statement.getQueryOption() + "=" + statement.getOptionValue();
         return new Sql[]{new UnparsedSql(sql, new Schema().getName())};
     }

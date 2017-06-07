@@ -20,7 +20,7 @@ import liquibase.statement.core.UnlockDatabaseChangeLogStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ImpalaLockService extends StandardLockService {
+public class MetastoreLockService extends StandardLockService {
 
     private static final Logger LOG = LogFactory.getInstance().getLog();
     private ObjectQuotingStrategy quotingStrategy;

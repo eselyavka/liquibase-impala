@@ -1,9 +1,9 @@
-package liquibase.ext.metastore.impala.sqlgenerator;
+package liquibase.ext.metastore.sqlgenerator;
 
 import liquibase.database.Database;
 import liquibase.exception.ValidationErrors;
-import liquibase.ext.metastore.impala.database.ImpalaDatabase;
-import liquibase.ext.metastore.impala.statement.TruncateTableStatement;
+import liquibase.ext.metastore.database.HiveMetastoreDatabase;
+import liquibase.ext.metastore.statement.TruncateTableStatement;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
@@ -11,11 +11,11 @@ import liquibase.sqlgenerator.core.AbstractSqlGenerator;
 import liquibase.structure.core.Relation;
 import liquibase.structure.core.Table;
 
-public class ImpalaTruncateGenerator extends AbstractSqlGenerator<TruncateTableStatement> {
+public class TruncateGenerator extends AbstractSqlGenerator<TruncateTableStatement> {
 
     @Override
     public boolean supports(TruncateTableStatement statement, Database database) {
-        return database instanceof ImpalaDatabase && super.supports(statement, database);
+        return database instanceof HiveMetastoreDatabase && super.supports(statement, database);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ImpalaTruncateGenerator extends AbstractSqlGenerator<TruncateTableS
         return errors;
     }
 
-    private Relation fetchAffectedTable(TruncateTableStatement statement) {
+    public Relation fetchAffectedTable(TruncateTableStatement statement) {
         return new Table().setName(statement.getTableName()).setSchema(statement.getCatalogName(), statement.getSchemaName());
     }
 

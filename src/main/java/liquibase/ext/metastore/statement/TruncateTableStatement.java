@@ -1,4 +1,4 @@
-package liquibase.ext.metastore.impala.statement;
+package liquibase.ext.metastore.statement;
 
 import liquibase.statement.AbstractSqlStatement;
 

@@ -57,6 +57,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <impala.jdbc.version>2.5.32</impala.jdbc.version>
+        <hive.jdbc.version>2.5.18</hive.jdbc.version>
         <uber.jar.name>${project.name}.jar</uber.jar.name>
     </properties>
     <dependencies>
@@ -74,6 +75,11 @@
             <groupId>com.cloudera.impala.jdbc</groupId>
             <artifactId>ImpalaJDBC41</artifactId>
             <version>${impala.jdbc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cloudera.hive.jdbc</groupId>
+            <artifactId>HiveJDBC41</artifactId>
+            <version>${hive.jdbc.version}</version>
         </dependency>
         <dependency>
             <groupId>com.cloudera.impala.jdbc</groupId>

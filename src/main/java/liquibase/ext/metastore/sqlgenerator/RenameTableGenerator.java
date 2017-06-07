@@ -1,4 +1,4 @@
-package liquibase.ext.metastore.impala.sqlgenerator;
+package liquibase.ext.metastore.sqlgenerator;
 
 import liquibase.database.Database;
 import liquibase.exception.ValidationErrors;
@@ -11,7 +11,7 @@ import liquibase.statement.core.RenameTableStatement;
 import liquibase.structure.core.Relation;
 import liquibase.structure.core.Table;
 
-public class ImpalaRenameTableGenerator extends AbstractSqlGenerator<RenameTableStatement> {
+public class RenameTableGenerator extends AbstractSqlGenerator<RenameTableStatement> {
 
     @Override
     public boolean supports(RenameTableStatement statement, Database database) {

@@ -1,11 +1,11 @@
-package liquibase.ext.metastore.impala.datatype;
+package liquibase.ext.metastore.datatype;
 
 import liquibase.database.Database;
 import liquibase.datatype.DataTypeInfo;
 import liquibase.datatype.DatabaseDataType;
 import liquibase.datatype.LiquibaseDataType;
 import liquibase.datatype.core.ClobType;
-import liquibase.ext.metastore.impala.database.ImpalaDatabase;
+import liquibase.ext.metastore.database.HiveMetastoreDatabase;
 
 @DataTypeInfo(name = "text", aliases = {"java.sql.Types.CLOB",
         "java.sql.Types.NCLOB",
@@ -14,11 +14,11 @@ import liquibase.ext.metastore.impala.database.ImpalaDatabase;
         "string",
         "clob",
         "blob"}, minParameters = 0, maxParameters = 1, priority = LiquibaseDataType.PRIORITY_DATABASE)
-public class ImpalaTextType extends ClobType {
+public class MetastoreTextType extends ClobType {
 
     @Override
     public DatabaseDataType toDatabaseDataType(Database database) {
-        if (database instanceof ImpalaDatabase) {
+        if (database instanceof HiveMetastoreDatabase) {
             return new DatabaseDataType("STRING", getParameters());
         }
 

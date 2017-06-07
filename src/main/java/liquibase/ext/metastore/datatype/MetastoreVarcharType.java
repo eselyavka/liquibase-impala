@@ -1,11 +1,11 @@
-package liquibase.ext.metastore.impala.datatype;
+package liquibase.ext.metastore.datatype;
 
 import liquibase.database.Database;
 import liquibase.datatype.DataTypeInfo;
 import liquibase.datatype.DatabaseDataType;
 import liquibase.datatype.LiquibaseDataType;
 import liquibase.datatype.core.VarcharType;
-import liquibase.ext.metastore.impala.database.ImpalaDatabase;
+import liquibase.ext.metastore.database.HiveMetastoreDatabase;
 
 @DataTypeInfo(name = "varchar", aliases = {"java.sql.Types.VARCHAR",
         "java.sql.Types.LONGVARCHAR",
@@ -16,11 +16,11 @@ import liquibase.ext.metastore.impala.database.ImpalaDatabase;
         "nvarchar",
         "varchar2",
         "nvarchar2"}, minParameters = 0, maxParameters = 1, priority = LiquibaseDataType.PRIORITY_DATABASE)
-public class ImpalaVarcharType extends VarcharType {
+public class MetastoreVarcharType extends VarcharType {
 
     @Override
     public DatabaseDataType toDatabaseDataType(Database database) {
-        if (database instanceof ImpalaDatabase) {
+        if (database instanceof HiveMetastoreDatabase) {
             return new DatabaseDataType("STRING", getParameters());
         }
 

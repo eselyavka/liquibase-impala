@@ -1,12 +1,11 @@
-package liquibase.ext.metastore.impala.sqlgenerator;
+package liquibase.ext.metastore.hive.sqlgenerator;
 
 import liquibase.database.Database;
 import liquibase.exception.ValidationErrors;
-import liquibase.ext.metastore.impala.database.ImpalaDatabase;
-import liquibase.ext.metastore.statement.InsertAsSelectStatement;
+import liquibase.ext.metastore.hive.database.HiveDatabase;
 import liquibase.ext.metastore.statement.CreateTableAsSelectStatement;
+import liquibase.ext.metastore.statement.InsertAsSelectStatement;
 import liquibase.ext.metastore.utils.CustomSqlGenerator;
-import liquibase.ext.metastore.utils.UserSessionSettings;
 import liquibase.sql.Sql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.AbstractSqlGenerator;
@@ -17,7 +16,7 @@ import liquibase.structure.core.Column;
 
 import java.util.UUID;
 
-public class ImpalaTagDatabaseGenerator extends AbstractSqlGenerator<TagDatabaseStatement> {
+public class HiveTagDatabaseGenerator extends AbstractSqlGenerator<TagDatabaseStatement> {
 
     @Override
     public int getPriority() {
@@ -26,7 +25,7 @@ public class ImpalaTagDatabaseGenerator extends AbstractSqlGenerator<TagDatabase
 
     @Override
     public boolean supports(TagDatabaseStatement statement, Database database) {
-        return database instanceof ImpalaDatabase && super.supports(statement, database);
+        return database instanceof HiveDatabase && super.supports(statement, database);
     }
 
     @Override
@@ -44,23 +43,20 @@ public class ImpalaTagDatabaseGenerator extends AbstractSqlGenerator<TagDatabase
         String tableNameEscaped = database.escapeTableName(catalogName, schemaName, tableName);
         String dateColumnNameEscaped = database.escapeObjectName("DATEEXECUTED", Column.class);
         String tagColumnNameEscaped = database.escapeObjectName("TAG", Column.class);
-        String tmpTable = UUID.randomUUID().toString().replaceAll("-", "");
-        CreateTableAsSelectStatement createTableAsSelectStatement = new CreateTableAsSelectStatement(catalogName, schemaName, tableName, tmpTable)
+        String tempTable = UUID.randomUUID().toString().replaceAll("-", "");
+        CreateTableAsSelectStatement createTableAsSelectStatement = new CreateTableAsSelectStatement(catalogName, schemaName, tableName, tempTable)
                 .addColumnNames("ID", "AUTHOR", "FILENAME", "DATEEXECUTED", "ORDEREXECUTED", "EXECTYPE", "MD5SUM", "DESCRIPTION", "COMMENTS", "TAG", "LIQUIBASE", "CONTEXTS", "LABELS", "DEPLOYMENT_ID")
-                .setWhereCondition(dateColumnNameEscaped + " != (SELECT MAX(" + dateColumnNameEscaped + ") " +
+                .setWhereCondition(tableNameEscaped + "." + dateColumnNameEscaped + " NOT IN (SELECT MAX(" + tableNameEscaped + "." + dateColumnNameEscaped + ") " +
                         "FROM " + tableNameEscaped + ")");
-        InsertAsSelectStatement insertAsSelectStatement = new InsertAsSelectStatement(database.getLiquibaseCatalogName(), database.getLiquibaseSchemaName(), database.getDatabaseChangeLogTableName(), tmpTable)
+        InsertAsSelectStatement insertAsSelectStatement = new InsertAsSelectStatement(catalogName, schemaName, tableName, tempTable)
                 .addColumnNames("ID", "AUTHOR", "FILENAME", "DATEEXECUTED", "ORDEREXECUTED", "EXECTYPE", "MD5SUM", "DESCRIPTION", "COMMENTS", "'" + statement.getTag() + "'", "LIQUIBASE", "CONTEXTS", "LABELS", "DEPLOYMENT_ID")
-                .setWhereCondition(dateColumnNameEscaped + " = (SELECT MAX(" + dateColumnNameEscaped + ") FROM " + tableNameEscaped + ") AND ("
-                        + tagColumnNameEscaped + " IS NULL OR " + tagColumnNameEscaped + " != ?)")
-                .addWhereParameters(statement.getTag());
+                .setWhereCondition(tableNameEscaped + "." + dateColumnNameEscaped + " IN (SELECT MAX(" + tableNameEscaped + "." + dateColumnNameEscaped + ") FROM " + tableNameEscaped + ") AND ("
+                        + tableNameEscaped + "." + tagColumnNameEscaped + " IS NULL OR " + tableNameEscaped + "." + tagColumnNameEscaped + " != ?)").addWhereParameters(statement.getTag());
 
         return CustomSqlGenerator.generateSql(database,
-                UserSessionSettings.syncDdlStart(),
                 createTableAsSelectStatement,
                 insertAsSelectStatement,
                 new DropTableStatement(catalogName, schemaName, tableName, false),
-                new RenameTableStatement(catalogName, schemaName, tmpTable, tableName),
-                UserSessionSettings.syncDdlStop());
+                new RenameTableStatement(catalogName, schemaName, tempTable, tableName));
     }
 }

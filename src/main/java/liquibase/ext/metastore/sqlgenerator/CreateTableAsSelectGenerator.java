@@ -1,4 +1,4 @@
-package liquibase.ext.metastore.impala.sqlgenerator;
+package liquibase.ext.metastore.sqlgenerator;
 
 import liquibase.database.Database;
 import liquibase.exception.ValidationErrors;
@@ -13,7 +13,7 @@ import liquibase.structure.core.Table;
 
 import static liquibase.util.SqlUtil.replacePredicatePlaceholders;
 
-public class ImpalaCreateTableAsSelectGenerator extends AbstractSqlGenerator<CreateTableAsSelectStatement> {
+public class CreateTableAsSelectGenerator extends AbstractSqlGenerator<CreateTableAsSelectStatement> {
 
     @Override
     public boolean supports(CreateTableAsSelectStatement statement, Database database) {

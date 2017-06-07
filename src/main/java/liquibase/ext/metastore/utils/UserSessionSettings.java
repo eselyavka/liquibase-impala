@@ -1,14 +1,14 @@
 package liquibase.ext.metastore.utils;
 
-import liquibase.ext.metastore.impala.statement.SessionSetStatement;
+import liquibase.ext.metastore.statement.SetStatement;
 
 public class UserSessionSettings {
 
-    public static SessionSetStatement syncDdlStart() {
-        return new SessionSetStatement("SYNC_DDL", 1);
+    public static SetStatement syncDdlStart() {
+        return new SetStatement("SYNC_DDL", 1);
     }
 
-    public static SessionSetStatement syncDdlStop() {
-        return new SessionSetStatement("SYNC_DDL", 0);
+    public static SetStatement syncDdlStop() {
+        return new SetStatement("SYNC_DDL", 0);
     }
 }

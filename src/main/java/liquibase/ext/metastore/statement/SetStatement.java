@@ -1,12 +1,12 @@
-package liquibase.ext.metastore.impala.statement;
+package liquibase.ext.metastore.statement;
 
 import liquibase.statement.AbstractSqlStatement;
 
-public class SessionSetStatement extends AbstractSqlStatement {
+public class SetStatement extends AbstractSqlStatement {
     private String queryOption;
     private Object optionValue;
 
-    public SessionSetStatement(String queryOption, Object optionValue) {
+    public SetStatement(String queryOption, Object optionValue) {
         this.queryOption = queryOption;
         this.optionValue = optionValue;
     }

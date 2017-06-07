@@ -5,18 +5,14 @@
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-    <changeSet author="eselyavka" id="changeset-2.0" dbms="Impala">
-        <preConditions onFail="MARK_RAN">
-            <not><tableExists tableName="test_table2"/></not>
-        </preConditions>
 
-        <createTable tableName="test_table2" remarks="test_table2 table">
-            <column name="ID" type="INT"/>
-            <column name="DATA" type="TEXT"/>
-        </createTable>
+    <changeSet author="eselyavka" id="changeset-1.0" dbms="Apache Hive">
+        <sql>
+            CREATE TABLE IF NOT EXISTS hive_test_table1(id INT, arr ARRAY<STRING>, m MAP<INT, STRING>, `comment` STRING);
+        </sql>
 
         <rollback>
-            <dropTable tableName="test_table2"/>
+            DROP TABLE test_table1;
         </rollback>
     </changeSet>
 </databaseChangeLog>

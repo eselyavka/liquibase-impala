@@ -1,9 +1,9 @@
-package liquibase.ext.metastore.impala.sqlgenerator;
+package liquibase.ext.metastore.sqlgenerator;
 
 import liquibase.database.Database;
 import liquibase.exception.ValidationErrors;
 import liquibase.ext.metastore.database.HiveMetastoreDatabase;
-import liquibase.ext.metastore.impala.statement.InsertAsSelectStatement;
+import liquibase.ext.metastore.statement.InsertAsSelectStatement;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
@@ -13,7 +13,7 @@ import liquibase.structure.core.Table;
 
 import static liquibase.util.SqlUtil.replacePredicatePlaceholders;
 
-public class ImpalaInsertAsSelectGenerator extends AbstractSqlGenerator<InsertAsSelectStatement> {
+public class InsertAsSelectGenerator extends AbstractSqlGenerator<InsertAsSelectStatement> {
 
     @Override
     public boolean supports(InsertAsSelectStatement statement, Database database) {
