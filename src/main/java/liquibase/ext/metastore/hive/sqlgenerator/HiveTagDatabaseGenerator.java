@@ -13,6 +13,7 @@ import liquibase.statement.core.DropTableStatement;
 import liquibase.statement.core.RenameTableStatement;
 import liquibase.statement.core.TagDatabaseStatement;
 import liquibase.structure.core.Column;
+import liquibase.structure.core.Table;
 
 import java.util.UUID;
 
@@ -40,7 +41,7 @@ public class HiveTagDatabaseGenerator extends AbstractSqlGenerator<TagDatabaseSt
         String catalogName = database.getLiquibaseCatalogName();
         String schemaName = database.getDefaultSchemaName();
         String tableName = database.getDatabaseChangeLogTableName();
-        String tableNameEscaped = database.escapeTableName(catalogName, schemaName, tableName);
+        String tableNameEscaped = database.escapeObjectName(tableName, Table.class);
         String dateColumnNameEscaped = database.escapeObjectName("DATEEXECUTED", Column.class);
         String tagColumnNameEscaped = database.escapeObjectName("TAG", Column.class);
         String tempTable = UUID.randomUUID().toString().replaceAll("-", "");

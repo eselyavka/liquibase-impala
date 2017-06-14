@@ -6,13 +6,17 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet author="eselyavka" id="changeset-1.0" dbms="Apache Hive">
+    <changeSet author="eselyavka" id="changeset-1.1" dbms="Apache Hive">
         <sql>
-            CREATE TABLE IF NOT EXISTS hive_test_table1(id INT, arr ARRAY<STRING>, m MAP<INT, STRING>, `comment` STRING);
+            CREATE TABLE IF NOT EXISTS hive_test_table1(id INT, idd INT, `comment` STRING);
         </sql>
+        <sqlFile encoding="utf8"
+            path="complex_type.hql"
+            relativeToChangelogFile="true"/>
 
         <rollback>
-            DROP TABLE test_table1;
+            DROP TABLE hive_test_table1;
+            DROP TABLE hive_test_table11;
         </rollback>
     </changeSet>
 </databaseChangeLog>

@@ -1,33 +1,33 @@
 package liquibase.ext.metastore;
 
 import liquibase.database.ObjectQuotingStrategy;
-import liquibase.ext.metastore.impala.database.ImpalaDatabase;
+import liquibase.ext.metastore.hive.database.HiveDatabase;
 import liquibase.structure.core.Table;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class ImpalaDatabaseTest {
+public class HiveDatabaseTest {
 
     @Test
     public void testGetDefaultDriver() {
-        ImpalaDatabase database = new ImpalaDatabase();
-        assertEquals("com.cloudera.impala.jdbc41.Driver", database.getDefaultDriver("jdbc:impala://localhost:21050/test"));
+        HiveDatabase database = new HiveDatabase();
+        assertEquals("com.cloudera.hive.jdbc41.HS2Driver", database.getDefaultDriver("jdbc:hive2://localhost:21050/test"));
         assertNull(database.getDefaultDriver("jdbc:oracle://localhost;databaseName=liquibase"));
     }
 
     @Test
     public void testEscapeObjectName() {
-        ImpalaDatabase databaseWithDefaultQuoting = new ImpalaDatabase();
+        HiveDatabase databaseWithDefaultQuoting = new HiveDatabase();
         databaseWithDefaultQuoting.setObjectQuotingStrategy(ObjectQuotingStrategy.LEGACY);
         assertEquals("Test", databaseWithDefaultQuoting.escapeObjectName("Test", Table.class));
 
-        ImpalaDatabase databaseWithAllQuoting = new ImpalaDatabase();
+        HiveDatabase databaseWithAllQuoting = new HiveDatabase();
         databaseWithAllQuoting.setObjectQuotingStrategy(ObjectQuotingStrategy.QUOTE_ALL_OBJECTS);
         assertEquals("`Test`", databaseWithAllQuoting.escapeObjectName("Test", Table.class));
 
-        ImpalaDatabase databaseWithReservedWordsQuoting = new ImpalaDatabase();
+        HiveDatabase databaseWithReservedWordsQuoting = new HiveDatabase();
         databaseWithReservedWordsQuoting.setReservedWords();
         databaseWithReservedWordsQuoting.setObjectQuotingStrategy(ObjectQuotingStrategy.QUOTE_ONLY_RESERVED_WORDS);
         assertEquals("`timestamp`", databaseWithReservedWordsQuoting.escapeObjectName("timestamp", Table.class));
@@ -36,6 +36,6 @@ public class ImpalaDatabaseTest {
 
     @Test
     public void testGetCurrentDateTimeFunction() {
-        assertEquals("NOW()", new ImpalaDatabase().getCurrentDateTimeFunction());
+        assertEquals("CURRENT_TIMESTAMP()", new HiveDatabase().getCurrentDateTimeFunction());
     }
 }

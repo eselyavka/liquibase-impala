@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="eselyavka" id="changeset-3.1" dbms="Apache Hive">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="hive_test_bigint_columns"/></not>
+        </preConditions>
+
+        <createTable tableName="hive_test_bigint_columns" remarks="hive_test_bigint_columns table">
+            <column name="ID" type="INT"/>
+            <column name="DATA" type="TEXT"/>
+            <column name="ID_BIGINT" type="BIGINT(20)"/>
+        </createTable>
+
+        <addColumn  tableName="hive_test_bigint_columns">
+            <column name="ANOTHER_ID" type="bigint(20)" remarks="Another BIGINT column"/>
+        </addColumn>
+
+        <rollback>
+            <dropColumn tableName="hive_test_bigint_columns" columnName="ANOTHER_ID"/>
+            <dropColumn tableName="hive_test_bigint_columns" columnName="DATA"/>
+            <dropTable tableName="hive_test_bigint_columns"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

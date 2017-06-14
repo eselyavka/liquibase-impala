@@ -1,7 +1,7 @@
 # liquibase-impala
-Liquibase extension to add Impala Database support
+Liquibase extension to add Impala,Hive Database support
 
-The plugin was tested with liquibase version - 3.5.2 and Cloudera JDBC 2.5.32
+The plugin was tested with liquibase version - 3.5.2, Cloudera Impala JDBC 2.5.32 and Cloudera Hive JDBC 2.5.18
 
 Download jdbc driver and dependencies from http://www.cloudera.com/downloads/connectors/impala/jdbc/2-5-32.html
 
@@ -17,6 +17,7 @@ mvn install:install-file -Dfile=ImpalaJDBC41.jar -DgroupId=com.cloudera.impala.j
 
 mvn install:install-file -Dfile=TCLIServiceClient.jar -DgroupId=com.cloudera.impala.jdbc -DartifactId=TCLIServiceClient -Dversion=2.5.32 -Dpackaging=jar
 
+mvn install:install-file -Dfile=HiveJDBC41.jar -DgroupId=com.cloudera.hive.jdbc -DartifactId=ImpalaJDBC41 -Dversion=2.5.32 -Dpackaging=jar
 
 Test the plugin:
 
@@ -29,3 +30,9 @@ Test the plugin:
 4. submit the job with the command ./liquibase --logLevel=DEBUG update
 
 5. if you want to disable locking, submit the job on that manner JAVA_OPTS="${JAVA_OPTS} -Dliquibase.lock=false" ./liquibase --logLevel=DEBUG update
+
+6. script run.sh perform basic integration testing for Impala and Hive, which includes:
+    - update execution
+    - tag execution
+    - rollback execution
+    script can be submitted with the command ./run.sh <both|hive|impala> PATH_TO_LIQUIBASE_HOME
