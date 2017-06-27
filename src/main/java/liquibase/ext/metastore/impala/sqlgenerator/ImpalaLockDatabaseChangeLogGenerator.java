@@ -2,7 +2,7 @@ package liquibase.ext.metastore.impala.sqlgenerator;
 
 import liquibase.database.Database;
 import liquibase.ext.metastore.impala.database.ImpalaDatabase;
-import liquibase.ext.metastore.impala.statement.TruncateTableStatement;
+import liquibase.ext.metastore.statement.TruncateTableStatement;
 import liquibase.ext.metastore.utils.DateTimeUtils;
 import liquibase.ext.metastore.utils.CustomSqlGenerator;
 import liquibase.ext.metastore.utils.UserSessionSettings;

@@ -135,14 +135,24 @@ public class HiveMetastoreDatabase extends AbstractJdbcDatabase {
     }
 
     protected String getSchemaDatabaseSpecific(String query) {
+        Statement statement = null;
         try {
-            ResultSet resultSet = getStatement().executeQuery(query);
+            statement = getStatement();
+            ResultSet resultSet = statement.executeQuery(query);
             resultSet.next();
             String schema = resultSet.getString(1);
             LOG.info("Schema name is '" + schema + "'");
             return schema;
         } catch (Exception e) {
             LOG.info("Can't get default schema:", e);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    LOG.warning("Can't close cursor", e);
+                }
+            }
         }
         return null;
     }

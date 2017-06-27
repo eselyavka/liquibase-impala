@@ -8,8 +8,11 @@
 
     <include file="changesets/tag_start.xml" relativeToChangelogFile="true"/>
     <include file="changesets/db.changeset-1.0.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/db.changeset-1.1.xml" relativeToChangelogFile="true"/>
     <include file="changesets/db.changeset-2.0.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/db.changeset-2.1.xml" relativeToChangelogFile="true"/>
     <include file="changesets/tag_end.xml" relativeToChangelogFile="true"/>
     <include file="changesets/db.changeset-3.0.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/db.changeset-3.1.xml" relativeToChangelogFile="true"/>
     <include file="changesets/tag_bigint.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

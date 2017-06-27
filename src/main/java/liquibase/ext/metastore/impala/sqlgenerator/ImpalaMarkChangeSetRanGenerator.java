@@ -9,7 +9,7 @@ import liquibase.exception.LiquibaseException;
 import liquibase.exception.UnexpectedLiquibaseException;
 import liquibase.exception.ValidationErrors;
 import liquibase.ext.metastore.impala.database.ImpalaDatabase;
-import liquibase.ext.metastore.impala.statement.CreateTableAsSelectStatement;
+import liquibase.ext.metastore.statement.CreateTableAsSelectStatement;
 import liquibase.ext.metastore.utils.UserSessionSettings;
 import liquibase.sql.Sql;
 import liquibase.ext.metastore.utils.CustomSqlGenerator;

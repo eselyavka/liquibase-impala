@@ -1,22 +1,16 @@
-package liquibase.ext.metastore.impala.sqlgenerator;
+package liquibase.ext.metastore.hive.sqlgenerator;
 
 import liquibase.database.Database;
-import liquibase.ext.metastore.impala.database.ImpalaDatabase;
+import liquibase.ext.metastore.hive.database.HiveDatabase;
+import liquibase.ext.metastore.hive.statement.HiveInsertStatement;
 import liquibase.ext.metastore.statement.TruncateTableStatement;
 import liquibase.ext.metastore.utils.CustomSqlGenerator;
-import liquibase.ext.metastore.utils.UserSessionSettings;
 import liquibase.sql.Sql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.InitializeDatabaseChangeLogLockTableGenerator;
 import liquibase.statement.core.InitializeDatabaseChangeLogLockTableStatement;
-import liquibase.statement.core.InsertStatement;
 
-public class ImpalaInitializeDatabaseChangeLogLockTableGenerator extends InitializeDatabaseChangeLogLockTableGenerator {
-
-    @Override
-    public boolean supports(InitializeDatabaseChangeLogLockTableStatement statement, Database database) {
-        return database instanceof ImpalaDatabase && super.supports(statement, database);
-    }
+public class HiveInitializeDatabaseChangeLogLockTableGenerator extends InitializeDatabaseChangeLogLockTableGenerator {
 
     @Override
     public int getPriority() {
@@ -24,18 +18,23 @@ public class ImpalaInitializeDatabaseChangeLogLockTableGenerator extends Initial
     }
 
     @Override
+    public boolean supports(InitializeDatabaseChangeLogLockTableStatement statement, Database database) {
+        return database instanceof HiveDatabase && super.supports(statement, database);
+    }
+
+    @Override
     public Sql[] generateSql(InitializeDatabaseChangeLogLockTableStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
         String catalogName = database.getLiquibaseCatalogName();
         String schemaName = database.getDefaultSchemaName();
         String tableName = database.getDatabaseChangeLogLockTableName();
-        InsertStatement insertStatement = new InsertStatement(catalogName, schemaName, tableName)
-                .addColumnValue("ID", 1)
-                .addColumnValue("LOCKED", Boolean.FALSE);
+        HiveInsertStatement insertStatementHive = new HiveInsertStatement(catalogName, schemaName, tableName)
+                .addColumnValue(1)
+                .addColumnValue(Boolean.FALSE)
+                .addColumnValue("NULL")
+                .addColumnValue("NULL");
 
         return CustomSqlGenerator.generateSql(database,
-                UserSessionSettings.syncDdlStart(),
                 new TruncateTableStatement(catalogName, schemaName, tableName),
-                insertStatement,
-                UserSessionSettings.syncDdlStop());
+                insertStatementHive);
     }
 }
