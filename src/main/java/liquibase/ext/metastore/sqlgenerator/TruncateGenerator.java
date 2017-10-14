@@ -11,8 +11,8 @@ import liquibase.sqlgenerator.core.AbstractSqlGenerator;
 import liquibase.structure.core.Relation;
 import liquibase.structure.core.Table;
 
+@SuppressWarnings("unused")
 public class TruncateGenerator extends AbstractSqlGenerator<TruncateTableStatement> {
-
     @Override
     public boolean supports(TruncateTableStatement statement, Database database) {
         return database instanceof HiveMetastoreDatabase && super.supports(statement, database);
@@ -25,18 +25,19 @@ public class TruncateGenerator extends AbstractSqlGenerator<TruncateTableStateme
 
     @Override
     public ValidationErrors validate(TruncateTableStatement truncateStatement, Database database, SqlGeneratorChain sqlGeneratorChain) {
-        ValidationErrors errors = new ValidationErrors();
+        final ValidationErrors errors = new ValidationErrors();
         errors.checkRequiredField("tableName", truncateStatement.getTableName());
         return errors;
     }
 
-    public Relation fetchAffectedTable(TruncateTableStatement statement) {
-        return new Table().setName(statement.getTableName()).setSchema(statement.getCatalogName(), statement.getSchemaName());
-    }
-
     @Override
     public Sql[] generateSql(TruncateTableStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
-        String sql = "TRUNCATE " + database.escapeTableName(statement.getCatalogName(), statement.getSchemaName(), statement.getTableName());
+        final String sql = "TRUNCATE TABLE " + database.escapeTableName(statement.getCatalogName(),
+                statement.getSchemaName(), statement.getTableName());
         return new Sql[]{new UnparsedSql(sql, fetchAffectedTable(statement))};
+    }
+
+    private Relation fetchAffectedTable(TruncateTableStatement statement) {
+        return new Table().setName(statement.getTableName()).setSchema(statement.getCatalogName(), statement.getSchemaName());
     }
 }
