@@ -1,5 +1,7 @@
 package liquibase.ext.metastore.hive.database;
 
+import liquibase.configuration.LiquibaseConfiguration;
+import liquibase.ext.metastore.configuration.HiveMetastoreConfiguration;
 import liquibase.ext.metastore.database.HiveMetastoreDatabase;
 
 import java.util.Arrays;
@@ -7,7 +9,9 @@ import java.util.Arrays;
 public class HiveDatabase extends HiveMetastoreDatabase {
 
     public HiveDatabase() {
-        super("Apache Hive", "jdbc:hive2", "com.cloudera.hive.jdbc41.HS2Driver");
+        super("Apache Hive",
+                "jdbc:hive2",
+                LiquibaseConfiguration.getInstance().getConfiguration(HiveMetastoreConfiguration.class).getHiveDriver());
     }
 
     @Override
