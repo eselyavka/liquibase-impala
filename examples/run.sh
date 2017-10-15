@@ -16,10 +16,10 @@ function run_impala() {
 
 function run_hive() {
     echo "running hive"
-    beeline -u jdbc:hive2://localhost:10000/default -n eselyavka -e "DROP DATABASE IF EXISTS hive_test CASCADE; CREATE DATABASE hive_test;" || exit 1
-    liquibase --logLevel=debug --defaultsFile=liquibase-hive.properties update || exit 1
-    liquibase --logLevel=debug --defaultsFile=liquibase-hive.properties tag 'testTag' || exit 1
-    liquibase --logLevel=debug --defaultsFile=liquibase-hive.properties rollback 'start' || exit 1
+    beeline -u jdbc:hive2://localhost:10000/default -n "$(whoami)" -e "DROP DATABASE IF EXISTS hive_test CASCADE; CREATE DATABASE hive_test;" || exit 1
+    liquibase --logLevel=debug --defaultsFile=<(sed s/@@USER@@/"$(whoami)"/g liquibase-hive.properties) update || exit 1
+    liquibase --logLevel=debug --defaultsFile=<(sed s/@@USER@@/"$(whoami)"/g liquibase-hive.properties) tag 'testTag' || exit 1
+    liquibase --logLevel=debug --defaultsFile=<(sed s/@@USER@@/"$(whoami)"/g liquibase-hive.properties) rollback 'start' || exit 1
 }
 
 function main() {
