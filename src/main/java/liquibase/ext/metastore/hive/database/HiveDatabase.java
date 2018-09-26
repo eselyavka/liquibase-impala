@@ -8,8 +8,16 @@ public class HiveDatabase extends HiveMetastoreDatabase {
 
     public HiveDatabase() {
         super("Apache Hive", "jdbc:hive2", "com.cloudera.hive.jdbc41.HS2Driver");
-        quotingStartCharacter = "`";
-        quotingEndCharacter = "`";
+    }
+
+    @Override
+    protected String getQuotingStartCharacter() {
+        return "`";
+    }
+
+    @Override
+    protected String getQuotingEndCharacter() {
+        return "`";
     }
 
     @Override

@@ -11,9 +11,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <impala.jdbc.version>2.5.32</impala.jdbc.version>
-        <hive.jdbc.version>2.5.18</hive.jdbc.version>
-        <liquibase.version>3.5.2</liquibase.version>
+        <impala.jdbc.version>2.6.4</impala.jdbc.version>
+        <hive.jdbc.version>2.6.2</hive.jdbc.version>
+        <liquibase.version>3.6.2</liquibase.version>
         <uber.jar.name>${project.name}.jar</uber.jar.name>
     </properties>
 
@@ -22,19 +22,10 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>${liquibase.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Non-public Cloudera Hive & Impala connector dependencies -->
-        <dependency>
-            <groupId>com.cloudera.impala.jdbc</groupId>
-            <artifactId>hive_metastore</artifactId>
-            <version>${impala.jdbc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cloudera.impala.jdbc</groupId>
-            <artifactId>hive_service</artifactId>
-            <version>${impala.jdbc.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.cloudera.impala.jdbc</groupId>
             <artifactId>ImpalaJDBC41</artifactId>
@@ -45,67 +36,11 @@
             <artifactId>HiveJDBC41</artifactId>
             <version>${hive.jdbc.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.cloudera.impala.jdbc</groupId>
-            <artifactId>ql</artifactId>
-            <version>${impala.jdbc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cloudera.impala.jdbc</groupId>
-            <artifactId>TCLIServiceClient</artifactId>
-            <version>${impala.jdbc.version}</version>
-        </dependency>
 
-        <!-- Public Cloudera Hive & Impala connector dependencies -->
-        <dependency>
-            <groupId>org.apache.thrift</groupId>
-            <artifactId>libfb303</artifactId>
-            <version>0.9.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.thrift</groupId>
-            <artifactId>libthrift</artifactId>
-            <version>0.9.0</version>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.5.11</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.5.11</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.zookeeper</groupId>
-            <artifactId>zookeeper</artifactId>
-            <version>3.4.6</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.3</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.1.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.1.3</version>
+            <version>1.7.25</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -122,7 +57,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -131,7 +66,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.2</version>
+                <version>3.2.0</version>
                 <configuration>
                     <shadedArtifactAttached>false</shadedArtifactAttached>
                     <outputFile>target/${uber.jar.name}</outputFile>

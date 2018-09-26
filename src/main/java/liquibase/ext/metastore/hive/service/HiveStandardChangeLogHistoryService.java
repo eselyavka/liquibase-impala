@@ -18,7 +18,9 @@ import liquibase.exception.UnexpectedLiquibaseException;
 import liquibase.executor.Executor;
 import liquibase.executor.ExecutorService;
 import liquibase.ext.metastore.hive.database.HiveDatabase;
-import liquibase.logging.LogFactory;
+import liquibase.logging.LogService;
+import liquibase.logging.LogType;
+import liquibase.logging.Logger;
 import liquibase.snapshot.InvalidExampleException;
 import liquibase.snapshot.SnapshotControl;
 import liquibase.snapshot.SnapshotGeneratorFactory;
@@ -48,6 +50,7 @@ import java.util.Map;
 
 public class HiveStandardChangeLogHistoryService extends AbstractChangeLogHistoryService {
 
+    private static final Logger LOG = LogService.getLog(HiveStandardChangeLogHistoryService.class);
     private List<RanChangeSet> ranChangeSetList;
     private boolean serviceInitialized = false;
     private Boolean hasDatabaseChangeLogTable = null;
@@ -180,7 +183,7 @@ public class HiveStandardChangeLogHistoryService extends AbstractChangeLogHistor
             }
             // If there is no table in the database for recording change history create one.
             statementsToExecute.add(createTableStatement);
-            LogFactory.getLogger().info("Creating database history table with name: " + getDatabase().escapeTableName(getLiquibaseCatalogName(), getLiquibaseSchemaName(), getDatabaseChangeLogTableName()));
+            LOG.info("Creating database history table with name: " + getDatabase().escapeTableName(getLiquibaseCatalogName(), getLiquibaseSchemaName(), getDatabaseChangeLogTableName()));
         }
 
         for (SqlStatement sql : statementsToExecute) {
@@ -188,7 +191,7 @@ public class HiveStandardChangeLogHistoryService extends AbstractChangeLogHistor
                 executor.execute(sql);
                 getDatabase().commit();
             } else {
-                LogFactory.getLogger().info("Cannot run " + sql.getClass().getSimpleName() + " on " + getDatabase().getShortName() + " when checking databasechangelog table");
+                LOG.info("Cannot run " + sql.getClass().getSimpleName() + " on " + getDatabase().getShortName() + " when checking databasechangelog table");
             }
         }
         serviceInitialized = true;
@@ -212,7 +215,7 @@ public class HiveStandardChangeLogHistoryService extends AbstractChangeLogHistor
             String databaseChangeLogTableName = getDatabase().escapeObjectName(getDatabaseChangeLogTableName(), Table.class);
             List<RanChangeSet> ranChangeSetList = new ArrayList<RanChangeSet>();
             if (hasDatabaseChangeLogTable()) {
-                LogFactory.getLogger().info("Reading from " + databaseChangeLogTableName);
+                LOG.info("Reading from " + databaseChangeLogTableName);
                 List<Map<String, ?>> results = queryDatabaseChangeLogTable(database);
                 for (Map rs : results) {
                     String fileName = rs.get(concat("FILENAME")).toString();
@@ -245,7 +248,7 @@ public class HiveStandardChangeLogHistoryService extends AbstractChangeLogHistor
                         ranChangeSet.setOrderExecuted(orderExecuted);
                         ranChangeSetList.add(ranChangeSet);
                     } catch (IllegalArgumentException e) {
-                        LogFactory.getLogger().severe("Unknown EXECTYPE from database: " + execType);
+                        LOG.severe("Unknown EXECTYPE from database: " + execType);
                         throw e;
                     }
                 }
