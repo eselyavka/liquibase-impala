@@ -4,7 +4,7 @@ import liquibase.database.Database;
 import liquibase.exception.UnexpectedLiquibaseException;
 import liquibase.exception.ValidationErrors;
 import liquibase.ext.metastore.hive.database.HiveDatabase;
-import liquibase.logging.LogFactory;
+import liquibase.logging.LogService;
 import liquibase.logging.Logger;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HiveDropColumnGenerator extends AbstractSqlGenerator<DropColumnStatement> {
-    private static final Logger LOG = LogFactory.getInstance().getLog();
+    private static final Logger LOG = LogService.getLog(HiveDropColumnGenerator.class);
 
     @Override
     public int getPriority() {
