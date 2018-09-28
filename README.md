@@ -12,7 +12,7 @@
 Liquibase-impala is a [Liquibase](http://www.liquibase.org/) [extension](https://liquibase.jira.com/wiki/spaces/CONTRIB/overview), which adds support for Impala and Hive.
 
 # Notes on compatibility
-As of version 1.1.x the plugin was tested and should work with the following versions of external dependencies:
+As of version **1.1.x** the plugin was tested and should work with the following versions of external dependencies:
 
 | Dependency          | Versions                     |
 | :-----------------: | :--------------------------: |
@@ -20,9 +20,18 @@ As of version 1.1.x the plugin was tested and should work with the following ver
 | Impala JDBC driver  | Cloudera Impala JDBC 2.5.32  |
 | Hive JDBC driver    | Cloudera Impala Hive 2.5.18  |
 
+Version **1.2.x**
+
+| Dependency          | Versions                    |
+| :-----------------: | :-------------------------: |
+| Liquibase           | 3.6.2                       |
+| Impala JDBC driver  | Cloudera Impala JDBC 2.6.4  |
+| Hive JDBC driver    | Cloudera Impala Hive 2.6.2  |
+
 **Other configurations are likely to work too** so you are encouraged to test with your versions. Let us know when you do!
 
 # How to install
+### version 1.1.x
 As of version 1.1.x liquibase-impala depends on proprietary Cloudera connectors for Impala and Hive. These are not present in any public Maven repositories.
 Therefore, to build and install the plugin, you must do the following:
 1. Download Impala JDBC driver and its dependencies from http://www.cloudera.com/downloads/connectors/impala/jdbc/2-5-32.html
@@ -38,6 +47,22 @@ Therefore, to build and install the plugin, you must do the following:
 | ImpalaJDBC41.jar         | com.cloudera.impala.jdbc  | ImpalaJDBC41.jar       | 2.5.32  |
 | TCLIServiceClient.jar    | com.cloudera.impala.jdbc  | TCLIServiceClient.jar  | 2.5.32  |
 | HiveJDBC41.jar           | com.cloudera.hive.jdbc    | HiveJDBC41.jar         | 2.5.18  |
+
+4. _(optional, but recommended)_ Deploy the above artifacts to an internal, private Maven repository such as [Nexus](https://www.sonatype.com/nexus-repository-sonatype)
+or [Artifactory](https://www.jfrog.com/artifactory/), for subsequent use.
+5. Build liquibase-impala by executing ```mvn clean install```. This will install liquibase-impala in your local Maven repo and create a _liquibase-impala.jar_ fat-jar in the _target/_ directory.
+6. _(optional, but recommended)_ Deploy liquibase-impala to your internal, private Maven repository.
+
+### version 1.2.x
+1. Download Impala JDBC driver and its dependencies from https://www.cloudera.com/downloads/connectors/impala/jdbc/2-6-4.html
+2. Download Hive JDBC driver from https://www.cloudera.com/downloads/connectors/hive/jdbc/2-6-2.html
+3. Unpack and install the following dependencies in your local Maven repository, using standard Maven command: 
+```mvn install:install-file -Dfile=${file} -DgroupId=${groupId} -DartifactId=${artifactId} -Dversion=${version} -Dpackaging=jar```
+
+| file                     | groupId                   | artifactId       | version |
+| ------------------------ | ------------------------- | ---------------- | ------- |
+| ImpalaJDBC41.jar         | com.cloudera.impala.jdbc  | ImpalaJDBC41     | 2.6.4   |
+| HiveJDBC41.jar           | com.cloudera.hive.jdbc    | HiveJDBC41       | 2.6.2   |
 
 4. _(optional, but recommended)_ Deploy the above artifacts to an internal, private Maven repository such as [Nexus](https://www.sonatype.com/nexus-repository-sonatype)
 or [Artifactory](https://www.jfrog.com/artifactory/), for subsequent use.
