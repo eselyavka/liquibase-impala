@@ -3,7 +3,7 @@ package liquibase.ext.metastore.database;
 import liquibase.database.AbstractJdbcDatabase;
 import liquibase.database.DatabaseConnection;
 import liquibase.exception.DatabaseException;
-import liquibase.logging.LogService;
+import liquibase.logging.LogFactory;
 import liquibase.logging.Logger;
 
 import java.sql.*;
@@ -11,7 +11,7 @@ import java.sql.*;
 public class HiveMetastoreDatabase extends AbstractJdbcDatabase {
 
     private final String databaseProductName;
-    private static final Logger LOG = LogService.getLog(HiveMetastoreDatabase.class);
+    private static final Logger LOG = LogFactory.getInstance().getLog();;
     private final String prefix;
     private final String databaseDriver;
 

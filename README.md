@@ -24,7 +24,7 @@ Version **1.2.x**
 
 | Dependency          | Versions                    |
 | :-----------------: | :-------------------------: |
-| Liquibase           | 3.6.2                       |
+| Liquibase           | 3.5.2                       |
 | Impala JDBC driver  | Cloudera Impala JDBC 2.6.4  |
 | Hive JDBC driver    | Cloudera Impala Hive 2.6.2  |
 

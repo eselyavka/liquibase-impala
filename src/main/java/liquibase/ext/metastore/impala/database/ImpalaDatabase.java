@@ -17,16 +17,8 @@ public class ImpalaDatabase extends HiveMetastoreDatabase {
 
     public ImpalaDatabase() {
         super("Impala", "jdbc:impala", "com.cloudera.impala.jdbc41.Driver");
-    }
-
-    @Override
-    protected String getQuotingStartCharacter() {
-        return "`";
-    }
-
-    @Override
-    protected String getQuotingEndCharacter() {
-        return "`";
+        quotingStartCharacter = "`";
+        quotingEndCharacter = "`";
     }
 
     @Override

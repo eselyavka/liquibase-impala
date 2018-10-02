@@ -11,7 +11,7 @@ import liquibase.ext.metastore.configuration.HiveMetastoreConfiguration;
 import liquibase.ext.metastore.database.HiveMetastoreDatabase;
 import liquibase.lockservice.DatabaseChangeLogLock;
 import liquibase.lockservice.StandardLockService;
-import liquibase.logging.LogService;
+import liquibase.logging.LogFactory;
 import liquibase.logging.Logger;
 import liquibase.statement.core.LockDatabaseChangeLogStatement;
 import liquibase.statement.core.SelectFromDatabaseChangeLogLockStatement;
@@ -22,7 +22,7 @@ import java.sql.Statement;
 
 public class MetastoreLockService extends StandardLockService {
 
-    private static final Logger LOG = LogService.getLog(MetastoreLockService.class);
+    private static final Logger LOG = LogFactory.getInstance().getLog();
     private ObjectQuotingStrategy quotingStrategy;
     private Boolean lockDb = LiquibaseConfiguration.getInstance().getConfiguration(HiveMetastoreConfiguration.class).getLock();
 

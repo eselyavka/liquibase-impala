@@ -18,8 +18,7 @@ import liquibase.exception.UnexpectedLiquibaseException;
 import liquibase.executor.Executor;
 import liquibase.executor.ExecutorService;
 import liquibase.ext.metastore.hive.database.HiveDatabase;
-import liquibase.logging.LogService;
-import liquibase.logging.LogType;
+import liquibase.logging.LogFactory;
 import liquibase.logging.Logger;
 import liquibase.snapshot.InvalidExampleException;
 import liquibase.snapshot.SnapshotControl;
@@ -50,7 +49,7 @@ import java.util.Map;
 
 public class HiveStandardChangeLogHistoryService extends AbstractChangeLogHistoryService {
 
-    private static final Logger LOG = LogService.getLog(HiveStandardChangeLogHistoryService.class);
+    private static final Logger LOG = LogFactory.getInstance().getLog();;
     private List<RanChangeSet> ranChangeSetList;
     private boolean serviceInitialized = false;
     private Boolean hasDatabaseChangeLogTable = null;
