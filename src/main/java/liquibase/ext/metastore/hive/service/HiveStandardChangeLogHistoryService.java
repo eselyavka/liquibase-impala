@@ -49,7 +49,7 @@ import java.util.Map;
 
 public class HiveStandardChangeLogHistoryService extends AbstractChangeLogHistoryService {
 
-    private static final Logger LOG = LogFactory.getInstance().getLog();;
+    private static final Logger LOG = LogFactory.getInstance().getLog();
     private List<RanChangeSet> ranChangeSetList;
     private boolean serviceInitialized = false;
     private Boolean hasDatabaseChangeLogTable = null;
