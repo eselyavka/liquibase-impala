@@ -11,7 +11,7 @@ import java.sql.*;
 public class HiveMetastoreDatabase extends AbstractJdbcDatabase {
 
     private final String databaseProductName;
-    private static final Logger LOG = LogFactory.getInstance().getLog();;
+    private static final Logger LOG = LogFactory.getInstance().getLog();
     private final String prefix;
     private final String databaseDriver;
 

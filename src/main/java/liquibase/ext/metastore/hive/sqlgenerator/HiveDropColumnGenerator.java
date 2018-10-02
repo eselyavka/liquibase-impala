@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HiveDropColumnGenerator extends AbstractSqlGenerator<DropColumnStatement> {
-    private static final Logger LOG = LogFactory.getInstance().getLog();;
+    private static final Logger LOG = LogFactory.getInstance().getLog();
 
     @Override
     public int getPriority() {
