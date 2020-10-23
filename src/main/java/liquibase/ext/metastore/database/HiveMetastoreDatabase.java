@@ -22,6 +22,12 @@ public class HiveMetastoreDatabase extends AbstractJdbcDatabase {
     }
 
     @Override
+    protected String getQuotingStartCharacter() { return "`"; }
+
+    @Override
+    protected String getQuotingEndCharacter() { return "`"; }
+
+    @Override
     public boolean isCorrectDatabaseImplementation(DatabaseConnection databaseConnection) throws DatabaseException {
         return databaseProductName.equalsIgnoreCase(databaseConnection.getDatabaseProductName());
     }
