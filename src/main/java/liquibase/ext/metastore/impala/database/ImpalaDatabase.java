@@ -16,7 +16,9 @@ public class ImpalaDatabase extends HiveMetastoreDatabase {
     private static Boolean syncDdl = LiquibaseConfiguration.getInstance().getConfiguration(HiveMetastoreConfiguration.class).getSyncDDL();
 
     public ImpalaDatabase() {
-        super("Impala", "jdbc:impala", "com.cloudera.impala.jdbc41.Driver");
+        super("Impala",
+                "jdbc:impala",
+                LiquibaseConfiguration.getInstance().getConfiguration(HiveMetastoreConfiguration.class).getImpalaDriver());
     }
 
     @Override
