@@ -23,7 +23,7 @@ import liquibase.statement.core.MarkChangeSetRanStatement;
 import liquibase.statement.core.RenameTableStatement;
 import liquibase.structure.core.Column;
 import liquibase.util.LiquibaseUtil;
-import liquibase.util.StringUtils;
+import liquibase.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +92,7 @@ public class ImpalaMarkChangeSetRanGenerator extends AbstractSqlGenerator<MarkCh
                         .addColumnValue("ORDEREXECUTED", ChangeLogHistoryServiceFactory.getInstance().getChangeLogService(database).getNextSequenceValue())
                         .addColumnValue("MD5SUM", changeSet.generateCheckSum().toString())
                         .addColumnValue("DESCRIPTION", limitSize(changeSet.getDescription()))
-                        .addColumnValue("COMMENTS", limitSize(StringUtils.trimToEmpty(changeSet.getComments())))
+                        .addColumnValue("COMMENTS", limitSize(StringUtil.trimToEmpty(changeSet.getComments())))
                         .addColumnValue("EXECTYPE", statement.getExecType().value)
                         .addColumnValue("CONTEXTS", changeSet.getContexts() == null || changeSet.getContexts().isEmpty() ? null : changeSet.getContexts().toString())
                         .addColumnValue("LABELS", changeSet.getLabels() == null || changeSet.getLabels().isEmpty() ? null : changeSet.getLabels().toString())
@@ -115,7 +115,7 @@ public class ImpalaMarkChangeSetRanGenerator extends AbstractSqlGenerator<MarkCh
                         .addColumnValue("ORDEREXECUTED", ChangeLogHistoryServiceFactory.getInstance().getChangeLogService(database).getNextSequenceValue())
                         .addColumnValue("MD5SUM", changeSet.generateCheckSum().toString())
                         .addColumnValue("DESCRIPTION", limitSize(changeSet.getDescription()))
-                        .addColumnValue("COMMENTS", limitSize(StringUtils.trimToEmpty(changeSet.getComments())))
+                        .addColumnValue("COMMENTS", limitSize(StringUtil.trimToEmpty(changeSet.getComments())))
                         .addColumnValue("EXECTYPE", statement.getExecType().value)
                         .addColumnValue("CONTEXTS", changeSet.getContexts() == null || changeSet.getContexts().isEmpty() ? null : changeSet.getContexts().toString())
                         .addColumnValue("LABELS", changeSet.getLabels() == null || changeSet.getLabels().isEmpty() ? null : changeSet.getLabels().toString())
