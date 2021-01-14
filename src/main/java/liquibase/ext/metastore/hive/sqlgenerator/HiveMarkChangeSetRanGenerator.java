@@ -18,7 +18,7 @@ import liquibase.sqlgenerator.core.AbstractSqlGenerator;
 import liquibase.statement.SqlStatement;
 import liquibase.statement.core.MarkChangeSetRanStatement;
 import liquibase.util.LiquibaseUtil;
-import liquibase.util.StringUtils;
+import liquibase.util.StringUtil;
 
 public class HiveMarkChangeSetRanGenerator extends AbstractSqlGenerator<MarkChangeSetRanStatement> {
 
@@ -67,7 +67,7 @@ public class HiveMarkChangeSetRanGenerator extends AbstractSqlGenerator<MarkChan
                     .addColumnValue(statement.getExecType().value)
                     .addColumnValue(changeSet.generateCheckSum().toString())
                     .addColumnValue(changeSet.getDescription())
-                    .addColumnValue(StringUtils.trimToEmpty(changeSet.getComments()))
+                    .addColumnValue(StringUtil.trimToEmpty(changeSet.getComments()))
                     .addColumnValue(tag == null ? "NULL" : tag)
                     .addColumnValue(ChangeLogHistoryServiceFactory.getInstance().getChangeLogService(database).getDeploymentId())
                     .addColumnValue(changeSet.getContexts() == null || changeSet.getContexts().isEmpty() ? null : changeSet.getContexts().toString())

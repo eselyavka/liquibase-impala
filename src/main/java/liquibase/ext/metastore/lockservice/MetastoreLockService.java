@@ -11,8 +11,8 @@ import liquibase.ext.metastore.configuration.HiveMetastoreConfiguration;
 import liquibase.ext.metastore.database.HiveMetastoreDatabase;
 import liquibase.lockservice.DatabaseChangeLogLock;
 import liquibase.lockservice.StandardLockService;
-import liquibase.logging.LogFactory;
 import liquibase.logging.Logger;
+import liquibase.Scope;
 import liquibase.statement.core.LockDatabaseChangeLogStatement;
 import liquibase.statement.core.SelectFromDatabaseChangeLogLockStatement;
 import liquibase.statement.core.UnlockDatabaseChangeLogStatement;
@@ -22,7 +22,7 @@ import java.sql.Statement;
 
 public class MetastoreLockService extends StandardLockService {
 
-    private static final Logger LOG = LogFactory.getInstance().getLog();
+    private final Logger LOG = Scope.getCurrentScope().getLog(getClass());
     private ObjectQuotingStrategy quotingStrategy;
     private Boolean lockDb = LiquibaseConfiguration.getInstance().getConfiguration(HiveMetastoreConfiguration.class).getLock();
 
@@ -76,7 +76,8 @@ public class MetastoreLockService extends StandardLockService {
                 database.setObjectQuotingStrategy(this.quotingStrategy);
             }
 
-            Executor executor = ExecutorService.getInstance().getExecutor(database);
+//            Executor executor = ExecutorService.getInstance().getExecutor(database);
+            Executor executor = Scope.getCurrentScope().getSingleton(ExecutorService.class).getExecutor("jdbc", database);
             try {
                 if (this.hasDatabaseChangeLogLockTable()) {
                     executor.comment("Release hive metastore database lock");
@@ -112,13 +113,14 @@ public class MetastoreLockService extends StandardLockService {
 
         quotingStrategy = database.getObjectQuotingStrategy();
 
-        Executor executor = ExecutorService.getInstance().getExecutor(database);
+        Executor executor = Scope.getCurrentScope().getSingleton(ExecutorService.class).getExecutor("jdbc", database);
 
         try {
             database.rollback();
             init();
 
-            Boolean locked = (Boolean) ExecutorService.getInstance().getExecutor(database).queryForObject(new SelectFromDatabaseChangeLogLockStatement("LOCKED"), Boolean.class);
+            Boolean locked = (Boolean) Scope.getCurrentScope().getSingleton(ExecutorService.class).getExecutor("jdbc", database)
+                    .queryForObject(new SelectFromDatabaseChangeLogLockStatement("LOCKED"), Boolean.class);
 
             if (locked) {
                 return false;

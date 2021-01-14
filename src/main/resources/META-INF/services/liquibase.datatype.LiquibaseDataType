@@ -1,0 +1,9 @@
+liquibase.ext.metastore.datatype.MetastoreBigIntType
+liquibase.ext.metastore.datatype.MetastoreBinaryType
+liquibase.ext.metastore.datatype.MetastoreCharType
+liquibase.ext.metastore.datatype.MetastoreDateTimeType
+liquibase.ext.metastore.datatype.MetastoreDateType
+liquibase.ext.metastore.datatype.MetastoreNumberType
+liquibase.ext.metastore.datatype.MetastoreTextType
+liquibase.ext.metastore.datatype.MetastoreTimeType
+liquibase.ext.metastore.datatype.MetastoreVarcharType

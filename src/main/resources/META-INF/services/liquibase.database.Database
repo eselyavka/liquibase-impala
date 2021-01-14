@@ -1,0 +1,3 @@
+liquibase.ext.metastore.database.HiveMetastoreDatabase
+liquibase.ext.metastore.hive.database.HiveDatabase
+liquibase.ext.metastore.impala.database.ImpalaDatabase
